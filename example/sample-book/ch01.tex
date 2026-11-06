@@ -1,0 +1,157 @@
+% ============================================================
+%  template/chapter-template.tex — 강 하나의 골격 (내용은 전부 더미)
+%  복사해서 chNN.tex로 쓴다. 순서(저자 확정, 연속편~):
+%    질문 한 줄 → 끊긴/안 되는 예시 그림 → 개념(증명 없음) → 관점 → 예시
+%    → 오진 주의(전권 연번) → 개념 문진 → 필수예제 2 → 유제 2 → STEP 6 (일반 강) / 8 (실전·심화 강)
+%  규칙: 강 시작은 \cleartoevenpage (짝수 쪽). 그래프 딸린 STEP 문항은 단독 쪽.
+%  문제문이 두 줄로 감기면 절 경계에서 \\ 로 끊고 "…의 값을 구하시오." 는 통째로 다음 줄.
+% ============================================================
+\cleartoevenpage
+\renewcommand{\bandtext}{01강 강 이름 · 강 제목}
+\renewcommand{\pageans}{}
+\themetitle{01}{강 제목}{강 이름: 부제 (다루는 내용 나열)}
+
+{\sffamily\cjkbold\fontsize{11.5}{15}\selectfont\textcolor{prime}{도입 질문 한 줄?}}
+\par\vspace{1mm}
+도입 문단. 단문으로, 비유 없이, 이 강이 무엇을 다루는지만.
+
+\begin{exbox}
+{\sffamily\footnotesize\textcolor{prime}{\cjkbold 예시 1 \; 안 되는 경우부터}}\quad
+그림 예시 설명. 그래프는 예시 박스 안에 둔다(같은 쪽 보장).
+\par\vspace{1mm}
+\begin{center}
+\begin{tikzpicture}[scale=0.7]
+  \draw[ax] (-0.5,0)--(3.5,0) node[lbl, below]{$x$}; \draw[ax] (0,-0.5)--(0,2.5) node[lbl, left]{$y$};
+  \draw[cv, domain=0.2:1.5, samples=20] plot (\x,{0.5*\x+0.5});
+  \draw[cv, domain=1.5:3.2, samples=20] plot (\x,{0.5*\x+1.0});
+  \fill[hole] (1.5,1.25) circle (2.7pt); \fill[dot] (1.5,1.75) circle (2.7pt);
+  \node[lbl, below] at (1.5,0) {$a$}; \node[lbl, below left] at (0,0) {O};
+  \node[capt] at (1.6,-0.9) {캡션: 표준 표현으로};
+\end{tikzpicture}
+\end{center}
+\end{exbox}
+
+\begin{concept}{①\; 개념 이름}
+교과서 정의 문장. 증명은 넣지 않는다.
+\end{concept}
+
+\viewpt{①}{\textbf{핵심 한 문장.} 보충 설명 한두 문장.}
+\viewpt{②}{\textbf{핵심 한 문장.} 보충 설명 한두 문장.}
+
+\begin{trap}{N \; 오진 제목 (전권 연번)}
+흔한 오해와 교정. 반례가 있으면 그림.
+\end{trap}
+
+\ccheck{01-1}{문진 문제문.}
+\vfill
+\sol{}{풀이.}
+
+\ccheck{01-2}{문진 문제문.}
+\subq{(1)}{소문항}
+\subq{(2)}{소문항}
+\vfill
+\sol{}{(1) 풀이. (2) 풀이.}
+\newpage
+
+\begin{mainex}{01-1}{행동영역 \; 무엇을 확인하고 무엇을 계산하는지}
+필수예제 문제문 (4점 중반).
+
+\radar{출제 차트: 유형·배점·포인트.}
+\keyy{풀이 처방: 첫 조건 → 둘째 조건 순서.}
+
+{\sffamily\footnotesize\colorbox{ink}{\textcolor{white}{\cjkbold 풀이}}}\quad
+풀이 본문.
+\end{mainex}
+
+\par\vspace{8mm}\noindent
+{\sffamily\cjkbold\textcolor{prime}{유제 01-1}}\; \chips
+\par\vspace{2mm}
+유제 문제문.
+\vfill
+\sol{}{풀이.}
+\newpage
+
+\begin{mainex}{01-2}{행동영역 \; 두 번째 필수예제}
+필수예제 문제문.
+
+\radar{출제 차트.}
+\keyy{풀이 처방.}
+
+{\sffamily\footnotesize\colorbox{ink}{\textcolor{white}{\cjkbold 풀이}}}\quad
+풀이 본문. \lbljs\; 정석 / \lbldg\; 직관 병기.
+\end{mainex}
+
+\par\vspace{8mm}\noindent
+{\sffamily\cjkbold\textcolor{prime}{유제 01-2}}\; \chips
+\par\vspace{2mm}
+유제 문제문.
+\vfill
+\sol{}{풀이.}
+\newpage
+\setans{01 \; $0$\;·\;02 \; $0$}
+
+{\sffamily\fontsize{15}{18}\selectfont\textcolor{prime}{\textbf{STEP}}\hspace{2mm}%
+ {\cjkblack\fontsize{13.5}{17}\selectfont\textcolor{ink}{01강 마스터}}}%
+\hfill{\sffamily\fontsize{8}{10}\selectfont\textcolor{gray60}{\cjkmed 아래로 갈수록 어려워집니다. \;틀리면 ← 역링크를 따라 예제로 돌아가세요.}}\par
+\vspace{2.4mm}
+{\color{prime}\hrule height 1.1pt}
+\vspace{6mm}
+
+\noindent
+\phead{01}{기본}{1}{\srcnavy{← 개념 ①}}
+문제문.
+\hint{초진: 꼴 식별까지만.}
+\vfill
+\sol{}{풀이. 답 $0$.}
+\rowrule
+\vspace{5mm}
+\noindent
+\phead{02}{기본}{1}{\srcnavy{← 예시 1}}
+문제문.
+\hint{초진.}
+\vfill
+\sol{}{풀이. 답 $0$.}
+\newpage
+\setans{03 \; $0$\;·\;04 \; $0$}
+
+\noindent
+\phead{03}{표준}{2}{\srcnavy{← 필수예제 01-1}}
+문제문.
+\hint{초진.}
+\vfill
+\sol{}{풀이. 답 $0$.}
+\rowrule
+\vspace{5mm}
+\noindent
+\phead{04}{표준}{2}{\srcnavy{← 필수예제 01-2}}
+문제문.
+\hint{초진.}
+\vfill
+\sol{}{풀이. 답 $0$.}
+\newpage
+\setans{05 \; $0$\;·\;06 \; ①}
+
+\noindent
+\phead{05}{도약}{3}{\srcnavy{← 필수예제 01-1}}
+문제문.
+\hint{초진.}
+\vfill
+\sol{}{풀이. 답 $0$.}
+\rowrule
+\vspace{5mm}
+\noindent
+\phead{06}{실전}{4}{\srcnavy{← 개념 ①·오진 주의 1}}
+ㄱㄴㄷ 문제문.
+\begin{center}
+\begin{tabular}{@{}l@{}}
+ㄱ. 보기. \\[2pt]
+ㄴ. 보기. \\[2pt]
+ㄷ. 보기.
+\end{tabular}
+\end{center}
+\begin{center}
+① ㄱ \qquad ② ㄷ \qquad ③ ㄱ, ㄴ \qquad ④ ㄴ, ㄷ \qquad ⑤ ㄱ, ㄴ, ㄷ
+\end{center}
+\hint{초진.}
+\vfill
+\sol{}{ㄱ. 참. ㄴ. 거짓. ㄷ. 거짓. 답 ①.}
