@@ -1,0 +1,7 @@
+books/
+fb/
+**/build/
+*.aux
+*.log
+*.out
+__pycache__/
