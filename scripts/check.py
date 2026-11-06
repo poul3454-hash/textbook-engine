@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""textbook-engine / scripts/check.py — 빌드 결과 검수 (고아 줄·파리티·백지·정답 푸터)
+r"""textbook-engine / scripts/check.py — 빌드 결과 검수 (고아 줄·파리티·백지·정답 푸터)
 
 사용: python3 scripts/check.py <책 폴더>/build/main.pdf [--first N] [--src <책 폴더>]
   --first N : 첫 쪽의 실제 쪽 번호 (도비라 쪽 번호). 생략하면 PDF 1쪽 = 책 1쪽.
@@ -46,7 +46,16 @@ def main():
             s = open(f, encoding="utf-8").read()
             foot = dict(re.findall(r"\\setans\{.*?(\d\d)\s*\\;\s*([^·}]+?)\s*(?:\\;·\\;|\})", s))
             foot.update(dict(re.findall(r"·\\;(\d\d)\s*\\;\s*([^}]+?)\s*\}", s)))
-            sols = re.findall(r"\\phead\{(\d\d)\}.*?\\sol\{\}\{.*?답\s*([^.}\n]+)[.}]", s, re.S)
+            # 문항 블록 = \phead{NN} 부터 다음 \phead 전까지. 그 블록의 \sol 안에서 마지막 '답 X'만 본다
+            blocks = re.split(r"(?=\\phead\{\d\d\})", s)
+            sols = []
+            for b in blocks:
+                m = re.match(r"\\phead\{(\d\d)\}", b)
+                if not m: continue
+                sm = re.search(r"\\sol\{\}\{(.*)", b, re.S)
+                if not sm: continue
+                ans = re.findall(r"답은?\s*(\$[^$]+\$|[①②③④⑤])", sm.group(1))
+                if ans: sols.append((m.group(1), ans[-1]))
             for num, ans in sols:
                 fa = foot.get(num, "").strip()
                 if fa and fa.replace(" ", "") != ans.strip().replace(" ", ""):
