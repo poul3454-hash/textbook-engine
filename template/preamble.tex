@@ -1,0 +1,202 @@
+% ============================================================
+%  textbook-engine / template/preamble.tex
+%  정면돌파 시리즈 공통 프리앰블 (책 내용 없음)
+%  사용법: 책별 pre.tex에서  \input{preamble.tex} 전에 아래 4개 매크로를 정의한다.
+%    \bookname   — 책 이름   (예: 정면돌파 미적분Ⅰ)
+%    \partlabel  — 헤더 편 이름 + 버전 (예: 함수의 극한편 v2.7)
+%    \partfoot   — 바깥 하단 파트 표기 (예: Ⅰ. 함수의 극한)
+%  정의하지 않으면 아래 기본값(샘플 문구)이 쓰인다.
+% ============================================================
+\documentclass[10pt,a4paper]{article}
+\providecommand{\bookname}{책 이름}
+\providecommand{\partlabel}{편 이름 v0}
+\providecommand{\partfoot}{Ⅰ. 단원 이름}
+
+\usepackage{geometry}
+% 양면 대칭: 홀수 = 오른쪽 페이지(바깥 여백 기둥 오른쪽), 짝수 = 왼쪽 페이지
+\geometry{a4paper, twoside, top=20mm, bottom=18mm, inner=17mm, outer=58mm,
+  marginparwidth=36mm, marginparsep=6mm, headheight=8mm, headsep=5mm, footskip=8mm}
+\usepackage{marginnote}
+\usepackage{needspace}
+\usepackage{changepage}
+\strictpagecheck
+
+\usepackage{fontspec}
+\usepackage{xeCJK}
+\setCJKmainfont[BoldFont={Noto Sans CJK KR Bold}]{Noto Serif CJK KR}
+\setCJKsansfont[BoldFont={Noto Sans CJK KR Black}]{Noto Sans CJK KR}
+\newCJKfontfamily\cjkblack{Noto Sans CJK KR Black}
+\newCJKfontfamily\cjkbold{Noto Sans CJK KR Bold}
+\newCJKfontfamily\cjkmed{Noto Sans CJK KR Medium}
+\xeCJKsetup{CJKmath=true, CJKspace=true}
+\xeCJKDeclareCharClass{CJK}{"2160 -> "217F, "2460 -> "24FF, "25CB, "25CF, "2190 -> "21FF}
+
+\usepackage{amsmath, amssymb}
+\makeatletter
+\renewcommand{\lim}{\mathop{\operator@font lim}\limits}   % 규칙 ①: lim 아래첨자는 항상 밑에
+\makeatother
+\usepackage{tikz}
+\usetikzlibrary{calc, positioning, decorations.markings}
+\usepackage[most]{tcolorbox}
+\usepackage{multicol}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{array}
+\usepackage{colortbl}
+\usepackage{xcolor}
+
+% ---------- 색: 네이비 2도 ----------
+\definecolor{prime}{HTML}{29468A}
+\definecolor{prime70}{HTML}{6A79A9}
+\definecolor{prime30}{HTML}{C9D0E2}
+\definecolor{prime12}{HTML}{EAEDF5}
+\definecolor{prime06}{HTML}{F6F8FC}
+\definecolor{ink}{HTML}{222222}
+\definecolor{gray60}{HTML}{777777}
+\definecolor{gray30}{HTML}{D9DDE5}
+\definecolor{solgray}{HTML}{8F959E}
+
+\color{ink}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+\linespread{1.55}                                          % 규칙 ⑫
+\setlength{\lineskiplimit}{3pt}\setlength{\lineskip}{5pt}  % 분수 든 줄 자동 여유
+
+% ---------- 사이드바 밴드 / 헤더 / 푸터 ----------
+\newcommand{\bandtext}{강 제목}
+\newcommand{\bandcolor}{prime}
+\newcommand{\pageans}{}
+\newcommand{\setans}[1]{\renewcommand{\pageans}{\sffamily\fontsize{7.5}{9}\selectfont\cjkmed\textcolor{gray60}{정답 \textcolor{gray30}{|}\; #1}}}
+\fancypagestyle{body}{%
+  \fancyhf{}
+  \renewcommand{\headrulewidth}{0pt}
+  \fancyhead[LO]{\begin{tikzpicture}[remember picture, overlay]
+    \fill[\bandcolor] ([xshift=-8mm]current page.north east) rectangle (current page.south east);
+    \node[rotate=90, anchor=center, text=white] at ([xshift=-4mm, yshift=-60mm]current page.north east)
+      {\sffamily\fontsize{7.5}{9}\selectfont\cjkmed \bandtext};
+    \node[anchor=north west, text=gray60] at ([xshift=17mm, yshift=-9mm]current page.north west)
+      {\sffamily\fontsize{7}{8}\selectfont\cjkmed \bookname\ \textcolor{prime}{|} \partlabel};
+    \node[anchor=south east, text=gray60] at ([xshift=-12mm, yshift=5mm]current page.south east)
+      {\sffamily\fontsize{8}{9}\selectfont\cjkmed \partfoot \quad {\cjkbold\textcolor{prime}{\thepage}}};
+  \end{tikzpicture}}
+  \fancyhead[LE]{\begin{tikzpicture}[remember picture, overlay]
+    \fill[\bandcolor] (current page.north west) rectangle ([xshift=8mm]current page.south west);
+    \node[rotate=90, anchor=center, text=white] at ([xshift=4mm, yshift=-60mm]current page.north west)
+      {\sffamily\fontsize{7.5}{9}\selectfont\cjkmed \bandtext};
+    \node[anchor=north east, text=gray60] at ([xshift=-17mm, yshift=-9mm]current page.north east)
+      {\sffamily\fontsize{7}{8}\selectfont\cjkmed \bookname\ \textcolor{prime}{|} \partlabel};
+    \node[anchor=south west, text=gray60] at ([xshift=12mm, yshift=5mm]current page.south west)
+      {\sffamily\fontsize{8}{9}\selectfont\cjkmed {\cjkbold\textcolor{prime}{\thepage}} \quad \partfoot};
+  \end{tikzpicture}}
+  \fancyfoot[LO]{\pageans}   % 정답 푸터 = 안쪽 (규칙 ⑨: STEP 문항 정답만)
+  \fancyfoot[RE]{\pageans}
+}
+\pagestyle{body}
+
+% ---------- 박스 시스템 ----------
+\newtcolorbox{concept}[1]{enhanced,
+  colback=prime12, colframe=prime12, boxrule=0pt, arc=2mm,
+  left=4mm, right=4mm, top=4mm, bottom=4mm,
+  overlay={\node[anchor=west, fill=prime, text=white, rounded corners=1mm,
+    inner xsep=2.5mm, inner ysep=1.2mm, font=\sffamily\small] at ([xshift=4mm]frame.north west) {\cjkbold 개념 #1};},
+  before skip=8mm, after skip=6mm}
+\newtcolorbox{trap}[1]{enhanced,
+  colback=white, colframe=ink, boxrule=0.5pt, arc=0mm,
+  left=3.5mm, right=3.5mm, top=3.6mm, bottom=3.2mm,
+  overlay={\node[anchor=west, fill=ink, text=white,
+    inner xsep=2.5mm, inner ysep=1.2mm, font=\sffamily\footnotesize] at ([xshift=3mm]frame.north west) {\cjkbold 오진 주의 \; #1};},
+  before skip=8mm, after skip=6mm}
+\newtcolorbox{exbox}{colback=white, colframe=prime30, boxrule=0.7pt, arc=1.5mm,
+  left=3mm, right=3mm, top=3mm, bottom=3mm, before skip=6mm, after skip=6mm}
+\newtcolorbox{mainex}[2]{enhanced,
+  colback=white, colframe=prime, boxrule=1pt, arc=2mm,
+  left=4mm, right=4mm, top=5mm, bottom=4mm,
+  overlay={
+    \node[anchor=west, fill=prime, text=white, rounded corners=1mm, inner xsep=3mm, inner ysep=1.5mm,
+      font=\sffamily] at ([xshift=4mm]frame.north west) {\cjkblack 필수예제 #1};
+    \node[anchor=east, fill=white, text=prime, draw=prime, rounded corners=2.2mm, inner xsep=2.5mm, inner ysep=1mm,
+      font=\sffamily\footnotesize] at ([xshift=-4mm]frame.north east) {\cjkmed #2};},
+  before skip=9mm, after skip=12mm}
+\newcommand{\radar}[1]{\par\vspace{20mm}{\small\sffamily\colorbox{prime}{\textcolor{white}{\cjkbold\footnotesize\;출제 차트\;}}\; \small #1\par}\vspace{1.5mm}}
+\newcommand{\keyy}[1]{{\small\sffamily\colorbox{prime30}{\textcolor{prime}{\cjkbold\footnotesize\;풀이 처방\;}}\; \small #1\par}\vspace{1.5mm}}
+\newtcolorbox{sumcard}[1]{colback=prime06, colframe=prime30, boxrule=0.6pt, arc=1.5mm,
+  left=3.5mm, right=3.5mm, top=3mm, bottom=3mm,
+  title={\sffamily\cjkbold\textcolor{prime}{#1}}, coltitle=prime, colbacktitle=prime06,
+  toptitle=2mm, bottomtitle=0mm, before skip=6mm, after skip=6mm}
+
+% ---------- 소도구 ----------
+\newcommand{\chips}{\tikz[baseline=-0.5ex]{
+  \draw[gray60, line width=0.35pt] (0,0) circle (1.1mm);
+  \foreach \i/\x in {1/0.36, 2/0.68, 3/1.0} {
+    \draw[gray60, line width=0.35pt] (\x,-0.11) rectangle +(0.22,0.22);
+    \node[gray60, font=\fontsize{4.8}{5}\selectfont] at (\x+0.11,0) {\i};}}}
+\newcommand{\numbox}[1]{\tikz[baseline=-0.62ex]{\node[fill=prime, text=white, rounded corners=0.5mm,
+  inner xsep=1.6mm, inner ysep=1.0mm, font=\sffamily\bfseries\small]{#1};}}
+\newcommand{\diff}[2]{{\sffamily\cjkmed\footnotesize\textcolor{ink}{#1}}\;
+  \tikz[baseline=-0.55ex]{\foreach \i in {1,...,4}{
+    \ifnum\i>#2 \draw[gray30, line width=0.5pt, fill=white] (\i*0.32,0) circle (0.75mm);
+    \else \fill[prime] (\i*0.32,0) circle (0.75mm); \fi}}}
+\newcommand{\srcnavy}[1]{{\sffamily\fontsize{7.5}{9}\selectfont\textcolor{prime}{\cjkmed #1}}}
+\newcommand{\metabar}[1]{{\sffamily\fontsize{7.5}{9}\selectfont\textcolor{gray60}{\cjkmed #1}}}
+\newcommand{\phead}[4]{\numbox{#1}\;\diff{#2}{#3}\hfill\chips\par
+  \vspace{1mm}#4\par\vspace{3.5mm}}
+\newcommand{\rowrule}{\par\noindent\textcolor{gray30}{\rule{\textwidth}{0.5pt}}\par}
+% 초진: 바깥 여백 기둥 (선택 인자 = 세로 오프셋)
+\newcommand{\hint}[2][0mm]{\marginnote{\begingroup\setlength{\parskip}{0pt}\raggedright
+  {\sffamily\fontsize{7.5}{9}\selectfont\textcolor{prime}{\cjkbold 초진}}\par
+  \nointerlineskip\vspace{0.7mm}%
+  {\color{prime}\rule{6mm}{0.8pt}}\par\vspace{1.4mm}
+  {\fontsize{8}{11.5}\selectfont\sffamily\textcolor{gray60}{\cjkmed #2}\par}\endgroup}[#1]}
+% 풀이 (과정만, 답은 푸터로)
+\newcommand{\sol}[2]{\par\vspace{2.6mm}%
+  {\color{gray30}\hrule height 0.4pt}\par\vspace{1.8mm}%
+  {\color{solgray}\sffamily\fontsize{7}{8.5}\selectfont\cjkmed 풀이\;}%
+  {\color{solgray}\fontsize{8.5}{13.5}\selectfont #2\par}}
+% 개념 문진 (80mm 확보로 페이지 분할 방지)
+\newcommand{\ccheck}[2]{\Needspace*{80mm}\par\vspace{6mm}\subqfirsttrue%
+  {\sffamily\colorbox{prime}{\textcolor{white}{\cjkbold\footnotesize\;개념 문진 #1\;}}}\; \chips\quad #2\par}
+\newenvironment{centerfig}{\par\vspace{4mm}\begin{center}}{\end{center}\vspace{2mm}\par}
+\newcommand{\figcap}[1]{\\[3mm]{\sffamily\footnotesize\textcolor{gray60}{\cjkmed #1}}}
+% TIP: 바깥 여백 기둥. \sidenote{머리글}{본문}  (머리글은 'TIP' 라벨 아래 회색 글)
+\newenvironment{withnote}[1]{\par}{\par}
+\newcommand{\sidenote}[3][0mm]{\marginnote{\begingroup\setlength{\parskip}{0pt}\raggedright
+  {\sffamily\footnotesize\textcolor{prime}{\cjkbold TIP}}\par
+  \nointerlineskip\vspace{0.7mm}%
+  {\color{prime}\rule{6mm}{0.8pt}}\par\vspace{1.4mm}
+  {\fontsize{8}{11.5}\selectfont\sffamily\textcolor{gray60}{\cjkmed #2}\par}
+  {\fontsize{8}{11.5}\selectfont #3\par}\endgroup}[#1]}
+\newenvironment{probcell}[1]{\par\vspace{8mm}\noindent\begin{minipage}[t][#1][s]{\textwidth}}{\end{minipage}\par\vspace{2mm}}
+% 관점 카드
+\newcommand{\viewpt}[2]{\par\vspace{1mm}{\sffamily\cjkbold\textcolor{prime}{관점 #1}}\;\; #2\par}
+% 강 제목: \themetitle{번호}{제목}{부제}
+\newcommand{\themetitle}[3]{%
+  \par\vspace{2mm}
+  {\sffamily\cjkblack\fontsize{20}{24}\selectfont\textcolor{prime}{#1}\quad
+   \fontsize{16}{20}\selectfont\textcolor{ink}{#2}}\\[2mm]
+  {\sffamily\cjkmed\fontsize{10.5}{13}\selectfont\textcolor{gray60}{#3}}
+  \par\vspace{2mm}{\color{prime}\hrule height 1.2pt}\vspace{7mm}}
+% 그래프 캡션(작은 회색)
+\providecommand{\capt}[1]{{\scriptsize\textcolor{gray60}{#1}}}
+
+% ---------- tikz 스타일 (규칙 ⑯⑰) ----------
+\tikzset{ax/.style={->, gray60}, cv/.style={prime, very thick, line cap=round},
+  cv2/.style={prime70, very thick, line cap=round},
+  hole/.style={fill=white, draw=prime, line width=0.9pt}, dot/.style={fill=prime},
+  lbl/.style={font=\footnotesize, text=black}, capt/.style={font=\scriptsize, text=gray60}}
+% 끝점 원은 radius 2.7pt:  \fill[dot] (x,y) circle (2.7pt);  \fill[hole] (x,y) circle (2.7pt);
+% 문진 소문항: 첫 소문항 5mm, 이후 10mm (규칙 ⑪)
+\newif\ifsubqfirst
+\newcommand{\subq}[2]{\par\ifsubqfirst\vspace{5mm}\subqfirstfalse\else\vspace{10mm}\fi\hspace*{7mm}{\cjkmed #1}\;\; #2}
+% 정석 / 직관 라벨 (규칙 ⑬)
+\newcommand{\lbljs}{{\sffamily\footnotesize\colorbox{prime}{\textcolor{white}{\cjkbold\;정석\;}}}}
+\newcommand{\lbldg}{{\sffamily\footnotesize\fcolorbox{prime}{white}{\textcolor{prime}{\cjkbold\;직관\;}}}}
+% 페이지 파리티 (규칙 ⑮): 강 시작 = 짝수(왼쪽), 파트 도비라 = 홀수(오른쪽). 빈 쪽은 완전 백지
+\newcommand{\cleartoevenpage}{\clearpage\ifodd\value{page}\hbox{}\thispagestyle{empty}\newpage\fi}
+\newcommand{\cleartooddpage}{\clearpage\ifodd\value{page}\else\hbox{}\thispagestyle{empty}\newpage\fi}
+
+% ---------- 한 장 정리 소도구 ----------
+\newcommand{\reflex}[3]{\par\noindent
+  \tikz[baseline=-0.6ex]{\node[fill=prime, text=white, rounded corners=0.8mm, inner xsep=2.5mm, inner ysep=1.4mm,
+    font=\sffamily\small]{\cjkmed #1};}\;
+  {\large$\to$}\; {\sffamily\cjkbold\fontsize{10.5}{14}\selectfont #2}\hfill{\footnotesize\textcolor{gray60}{#3}}\par\vspace{3.2mm}}
+\newcommand{\bnum}[1]{\textcolor{prime}{#1}\,}

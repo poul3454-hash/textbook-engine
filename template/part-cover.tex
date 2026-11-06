@@ -1,0 +1,41 @@
+% ============================================================
+%  template/part-cover.tex — 파트 도비라 (홀수/오른쪽 쪽)
+%  책별 pre.tex에서 \input 하기 전에 아래 매크로를 정의한다.
+%    \partnum     PART 번호·이름·강 범위  (예: PART Ⅰ. \; 함수의 극한 \; (1강--6강))
+%    \partlist    강 목록 (줄 사이 \\)   (예: 1강 \; 제목 \; · \; 부제 \\ ...)
+%    \partchart   출제 차트 문장
+%    \partprep    대비 방법 문장
+%    \partflow    학습 동선 문장
+%    \firstpage   도비라 쪽 번호 (앞 파트 마지막 쪽 + 1, 홀수)
+% ============================================================
+\providecommand{\partnum}{PART Ⅰ. \; 단원 이름 \; (1강--6강)}
+\providecommand{\partlist}{1강 \; 강 제목 \; · \; 부제 \\ 2강 \; 강 제목 \; · \; 부제}
+\providecommand{\partchart}{출제 차트 문장.}
+\providecommand{\partprep}{대비 방법 문장.}
+\providecommand{\partflow}{각 강: 개념 $\rightarrow$ 필수예제 $\rightarrow$ STEP(기본$\to$실전 계단) $\rightarrow$ 다음 강. 단원 끝 한 장 정리로 복습하고, 틀린 문제는 ← 역링크로 예제에 돌아간다.}
+\providecommand{\firstpage}{1}
+
+\setcounter{page}{\firstpage}
+\thispagestyle{empty}
+\begin{tikzpicture}[remember picture, overlay]
+  \fill[prime] (current page.north west) rectangle (current page.south east);
+  \fill[prime70, opacity=0.25] ([yshift=-70mm]current page.north west) -- ([yshift=-160mm]current page.north east)
+    -- (current page.south east) -- (current page.south west) -- cycle;
+  \node[anchor=north west, text=white] at ([xshift=18mm, yshift=-22mm]current page.north west)
+    {\sffamily\cjkmed\fontsize{11}{13}\selectfont 정확하게 진단하고, 정면으로 뚫는다};
+  \node[anchor=north west, text=white] at ([xshift=17mm, yshift=-30mm]current page.north west)
+    {\sffamily\cjkblack\fontsize{40}{46}\selectfont \bookname};
+  \node[anchor=north west, text=prime30] at ([xshift=18mm, yshift=-48mm]current page.north west)
+    {\sffamily\cjkbold\fontsize{15}{18}\selectfont \partnum};
+  \node[anchor=north west, text=white, align=left,
+        font=\sffamily\cjkbold\fontsize{12}{22}\selectfont]
+    at ([xshift=18mm, yshift=-76mm]current page.north west)
+    {\partlist};
+  \node[anchor=north west, fill=white, rounded corners=2.5mm, inner sep=7mm, text width=152mm]
+    at ([xshift=18mm, yshift=-168mm]current page.north west) {%
+    {\sffamily\cjkblack\fontsize{13.5}{17}\selectfont\textcolor{prime}{이 단원, 수능에서는 이렇게 나온다}}\\[4mm]
+    {\sffamily\cjkbold\fontsize{9.5}{14}\selectfont\textcolor{prime}{출제 차트}}\; {\fontsize{10}{16}\selectfont \partchart}\\[3mm]
+    {\sffamily\cjkbold\fontsize{9.5}{14}\selectfont\textcolor{prime}{대비 방법}}\; {\fontsize{10}{16}\selectfont \partprep}\\[3mm]
+    {\sffamily\cjkbold\fontsize{9.5}{14}\selectfont\textcolor{prime}{학습 동선}}\; {\fontsize{10}{16}\selectfont \partflow}};
+\end{tikzpicture}
+\mbox{}\newpage
